@@ -14,7 +14,20 @@ def osCommands():
                 "sudo apt-get dist-upgrade -y",
                 "sudo gedit /etc/proxychains.conf",
                 "sudo apt-get install tor -y",
-                "sudo apt-get install git -y"]
+                "sudo apt-get install git -y",
+                "sudo apt-get install ncat -y",
+                "sudo apt-get install mc -y",
+                "sudo apt-get install links -y",
+                "sudo apt-get install pyrit -y",
+                "sudo apt-get install hcxdumptool -y",
+                "sudo apt-get install libssl-dev -y",
+                "sudo apt-get install libz-dev -y",
+                "sudo apt-get install libcurl4-openssl-dev -y",
+                "sudo apt-get install libnetfilter-queue-dev -y",
+                "sudo apt-get install libnfnetlink-dev -y",
+                "sudo apt-get install foremost -y",
+                "sudo apt-get install libimage-exiftool-perl -y",
+                "apt-get install edb-debugger -y"]
 
     for command in commands:
         print("\n[+]",command,"\n")
