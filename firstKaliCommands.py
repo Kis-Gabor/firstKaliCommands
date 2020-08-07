@@ -18,6 +18,8 @@ def osCommands():
                 "sudo apt-get install ncat -y",
                 "sudo apt-get install mc -y",
                 "sudo apt-get install links -y",
+                "sudo apt-get install gcc -y",
+                "sudo searchsploit --update",
                 "sudo apt-get install pyrit -y",
                 "sudo apt-get install hcxdumptool -y",
                 "sudo apt-get install libssl-dev -y",
