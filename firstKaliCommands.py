@@ -19,6 +19,8 @@ def osCommands():
                 "sudo apt-get install mc -y",
                 "sudo apt-get install links -y",
                 "sudo apt-get install gcc -y",
+                "sudo apt-get install rainbowcrack -y",
+                "sudo apt-get install beef-xss -y",
                 "sudo searchsploit --update",
                 "sudo apt-get install pyrit -y",
                 "sudo apt-get install hcxdumptool -y",
@@ -29,7 +31,8 @@ def osCommands():
                 "sudo apt-get install libnfnetlink-dev -y",
                 "sudo apt-get install foremost -y",
                 "sudo apt-get install libimage-exiftool-perl -y",
-                "apt-get install edb-debugger -y"]
+                "sudo apt-get install edb-debugger -y",
+                "sudo apt-get install dsniff -y"]
 
     for command in commands:
         print("\n[+]",command,"\n")
