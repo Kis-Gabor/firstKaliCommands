@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import platform, subprocess, time
+import platform, optparse, subprocess, time
 
 def checkOS():
     if "kali" in platform.release():
@@ -7,36 +7,33 @@ def checkOS():
     else:
         return False
 
-def mac_addr_input():
-    new_mac = input("Enter the new mac address => ")
+def get_arguments():
+    parser = optparse.OptionParser()
+    parser.add_option("-i", "--interface", dest="interface", help="Interface to change its MAC address")
+    parser.add_option("-m", "--mac", dest="new_mac", help="New MAC address")
+    (options, arguments) = parser.parse_args()
+    if not options.interface:
+        parser.error("[-] Please specify an interface, use --help for more info")
+    if not options.new_mac:
+        parser.error("[-] Please specify a new mac address, use --help for more info")
+    return options
+    
 
-    if ":" in new_mac:
-        if len(new_mac) == 17:
-            return new_mac
-        else:
-            exit("[-] Wrong mac address!")
-    else:
-        exit("[-] Wrong mac address!") 
-
-def macChanger():
-    subprocess.call("ifconfig", shell=True)
-    #inputs
-    interface_name= input("Interface name => ")
-    new_mac = mac_addr_input()
+def macChanger(interface_name, new_mac):
     # interface down
-    subprocess.call("sudo ifconfig " + interface_name + " down", shell=True)
+    subprocess.call(["sudo", "ifconfig", interface_name, "down"])
     time.sleep(1)
     #mac address changing
-    subprocess.call("sudo ifconfig " + interface_name + " hw ether " + new_mac, shell=True)
+    subprocess.call(["sudo", "ifconfig", interface_name, "hw", "ether", new_mac])
     time.sleep(1)
     #interface up
-    subprocess.call("sudo ifconfig " + interface_name + " up", shell=True)
-    subprocess.call("ifconfig", shell=True)
+    subprocess.call(["sudo", "ifconfig", interface_name, "up"])
 
 
 if __name__ == "__main__":
     ch = checkOS()
     if ch:
-        macChanger()
+        options = get_arguments()
+        macChanger(options.interface, options.new_mac)
     else:
         print("[-] Your OS is not Kali linux!")
