@@ -17,7 +17,14 @@ def get_arguments():
     if not options.new_mac:
         parser.error("[-] Please specify a new mac address, use --help for more info")
     return options
+
+def check_new_mac(new_mac):
+    if new_mac.count(":", 0, 16) == 5:
+        if len(new_mac) == 17:
+            return True
     
+    return False
+
 def get_current_mac(interface):
     ifconfig_result = subprocess.check_output(["ifconfig", interface])
     mac_address_search_result = re.search(r"\w\w:\w\w:\w\w:\w\w:\w\w:\w\w", str(ifconfig_result)) #pythex.org
@@ -37,16 +44,20 @@ if __name__ == "__main__":
     ch = checkOS()
     if ch:
         options = get_arguments()
-        current_mac = get_current_mac(options.interface)
-        if current_mac != False:
-            print("[i] Current MAC: " + current_mac)
-            macChanger(options.interface, options.new_mac)
+        ch = check_new_mac(options.new_mac)
+        if ch:
             current_mac = get_current_mac(options.interface)
-            if current_mac == options.new_mac:
-                print("[+] MAC address was successfully changed to " + current_mac)
+            if current_mac != False:
+                print("[i] Current MAC: " + current_mac)
+                macChanger(options.interface, options.new_mac)
+                current_mac = get_current_mac(options.interface)
+                if current_mac == options.new_mac:
+                    print("[+] MAC address was successfully changed to " + current_mac)
+                else:
+                    print("[-] MAC address did not get changed!")
             else:
-                print("[-] MAC address did not get changed!")
+                print("[-] Could not read MAC address!")
         else:
-            print("[-] Could not read MAC address!")
+            print("[-] You gave wrong MAC address!")
     else:
         print("[-] Your OS is not linux!")
