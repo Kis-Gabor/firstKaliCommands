@@ -31,4 +31,4 @@ if __name__ == "__main__":
         options = get_arguments()
         macChanger(options.interface, options.new_mac)
     else:
-        print("[-] Your OS is not Kali linux!")
+        print("[-] Your OS is not linux!")

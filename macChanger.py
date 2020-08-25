@@ -49,4 +49,4 @@ if __name__ == "__main__":
         else:
             print("[-] Could not read MAC address!")
     else:
-        print("[-] Your OS is not Kali linux!")
+        print("[-] Your OS is not linux!")
