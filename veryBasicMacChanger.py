@@ -2,7 +2,7 @@
 import platform, optparse, subprocess, time
 
 def checkOS():
-    if "kali" in platform.release():
+    if "Linux" in platform.system():
         return True
     else:
         return False
