@@ -3,7 +3,7 @@ import optparse
 
 def get_arguments():
     parser = optparse.OptionParser()
-    parser.add_option("-t", "--target", dest="target", help="Enter the ip address to be scanned")
+    parser.add_option("-t", "--target", dest="target", help="Target IP / IP range.")
     (options, arguments) = parser.parse_args()
     if not options.target:
         parser.error("[-] Please specify an ip address, use --help for more info")
