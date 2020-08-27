@@ -33,7 +33,11 @@ def osCommands():
                 "sudo apt-get install foremost -y",
                 "sudo apt-get install libimage-exiftool-perl -y",
                 "sudo apt-get install edb-debugger -y",
-                "sudo apt-get install dsniff -y"]
+                "sudo apt-get install dsniff -y",
+                "sudo apt-get install python-pip -y",
+                "sudo apt-get install python3-pip -y",
+                "sudo apt-get install python3-pip git libnfnetlink-dev libnetfilter-queue-dev -y",
+                "sudo pip3 install -U git+https://github.com/kti/python-netfilterqueue"]
 
     for command in commands:
         print("\n[+]",command,"\n")
