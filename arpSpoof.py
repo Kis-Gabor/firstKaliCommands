@@ -55,7 +55,7 @@ if __name__ == "__main__":
                 spoof(target_mac, options.gateway_ip, options.target_ip)
                 send_packets_count += 2
                 print("\r[+] Packets sent: " + str(send_packets_count), end="")
-                time.sleep(3)
+                time.sleep(5)
         except KeyboardInterrupt:
             print("\n[i] Detected CTRL + C...Resetting ARP tables...Please wait!")
             restore(options.target_ip, options.gateway_ip)
