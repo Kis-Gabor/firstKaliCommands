@@ -11,7 +11,7 @@ def checkOS():
 def get_arguments():
     parser = optparse.OptionParser()
     parser.add_option("-t", "--target", dest="target_ip", help="Target IP")
-    parser.add_option("-g", "--gateway", dest="gateway_ip", help="Gateway IP")
+    parser.add_option("-g", "--gateway", dest="gateway_ip", help="Gateway or the other target IP")
     (options, arguments) = parser.parse_args()
     if not options.target_ip:
         parser.error("[-] Please specify a target IP, use --help for more info")
